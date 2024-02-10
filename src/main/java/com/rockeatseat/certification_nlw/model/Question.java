@@ -4,11 +4,15 @@
  */
 package com.rockeatseat.certification_nlw.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,20 +23,24 @@ import org.hibernate.annotations.CreationTimestamp;
  *
  * @author gusta
  */
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Alternatives {
-
+@Entity()
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    
+    @Column(length = 50)
+    private String tech;
 
     private String description;
 
-    private boolean isCorrect;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @OneToMany
+    @JoinColumn(name = "question_id")
+    private List<Alternatives> alternatives;
 }
